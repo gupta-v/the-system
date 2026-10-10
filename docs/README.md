@@ -32,6 +32,7 @@ Self-improvement web app inspired by the System from *Solo Leveling*. Real-life 
 | D3f | Backend layout: `api/` → `core/` (use-case flows) → `services/` (per-domain, modular monolith) → `repositories/` (all DB code, DB tables in `repositories/db_schema.py`) + `utils/` + `models/` (Pydantic); no `schemas/` folder | Decided |
 | D4 | Backend in Python (FastAPI); React frontend for animation-heavy UI | Proposed — confirm |
 | D5 | App name: **The System**. Branding for public release still avoids "Solo Leveling" trademark + official art | Decided (name) |
+| D6 | Hosting: backend on Render (SQLite on a persistent disk), frontend on Vercel with an `/api` rewrite. DB choice for public launch still open | Decided |
 
 ## Open questions
 
@@ -41,7 +42,7 @@ See bottom of each doc. Master list:
 2. Stats: earned only from tagged quests, or also free allocatable points on level-up? (game-mechanics.md §3)
 3. Accent color: pure violet, or violet + orange XP accent from ref2? (ui-style-guide.md §2)
 4. Workout tracker (ref6-style sets/reps/tempo) in MVP or phase 2?
-5. Hosting target for later public launch?
+5. ~~Hosting target?~~ → Render + Vercel (D6). Still open: DB for public launch (Postgres/Neon?)
 
 ## References
 

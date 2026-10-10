@@ -31,7 +31,7 @@ Postgres (or Mongo), deploy, sign-up flow, original art/branding, privacy policy
 
 Next first.
 
-- [ ] First git commit (nothing is committed yet)
+- [x] First git commit (09679c5)
 - [x] Goal editor UI on `/plan`
 - [ ] PWA: manifest, icons, install prompt
 - [ ] Analytics: XP/day chart
@@ -54,6 +54,7 @@ Newest first. Product-visible changes; rule changes also go in rules.md, bugs in
 
 | Date | Update |
 |---|---|
+| 2026-10-10 | Deploy config: backend on Render (`render.yaml`, Starter + 1 GB disk for SQLite), frontend on Vercel (`frontend/vercel.json` proxies `/api` so the session cookie stays same-origin). Postgres later. |
 | 2026-10-11 | Goal **Sets** (optional, Plan → Goal editor): on the quest each tap fills one set (box fills bottom-up), hold the box to clear; partial sets pay partial XP. |
 | 2026-10-11 | Default Routine always first in Routines; Water + Sleep locked in it. Plan edits apply from the next quest; testing switch `SYSTEM_REISSUE_TODAY_ON_PLAN_EDIT=true` (backend/.env) also rebuilds today's open quest, keeping progress. |
 | 2026-10-11 | **Default Routine** (Sleep + Water) runs on Standard days (= days with no Routine); removing a Training day's last Routine makes it Standard. Standard day: 5 Gold, no XP. Potion button only on Training days. |

@@ -1,0 +1,28 @@
+# Render Blueprint: the backend API. The frontend is on Vercel (frontend/vercel.json proxies /api here).
+services:
+  - type: web
+    name: the-system-api
+    runtime: python
+    rootDir: backend
+    plan: starter # a persistent disk needs a paid plan; on free, SQLite is wiped on every restart
+    buildCommand: pip install uv && uv sync --frozen --no-dev
+    # .venv/bin/python directly: `uv run` would re-sync and pull in the dev group.
+    startCommand: .venv/bin/python -m alembic upgrade head && .venv/bin/python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
+    disk:
+      name: data
+      mountPath: /var/data
+      sizeGB: 1
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.12.8"
+      - key: UV_PYTHON_DOWNLOADS
+        value: never # use Render's Python; a uv-downloaded one lives outside the build artifact
+      - key: SYSTEM_DATA_DIR
+        value: /var/data
+      - key: SYSTEM_DATABASE_URL
+        value: sqlite+aiosqlite:////var/data/the_system.db
+      - key: SYSTEM_JWT_SECRET
+        generateValue: true
+      - key: SYSTEM_COOKIE_SECURE
+        value: "true"
