@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.hypothesis/
+.coverage
+htmlcov/
+
+# Node / Vite (frontend/.gitignore covers the rest)
+node_modules/
+dist/
+
+# Secrets and local settings
+.env
+.env.*
+!.env.example
+.claude/settings.local.json
+
+# Local data (SQLite, exports): keep the folder only
+database/*
+!database/.gitkeep
+
+# UI reference screenshots: local only
+references/*
+
+# Background art: user-supplied, copyrighted, local only (src/lib/art.ts finds whatever is here)
+# frontend/src/assets/art/*
+!frontend/src/assets/art/.gitkeep
+
+# Logs
+*.log
+logs/
+
+# OS / editors
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/*
+!.vscode/extensions.json

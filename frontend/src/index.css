@@ -1,0 +1,330 @@
+@import 'tailwindcss';
+
+/*
+ * Theme: ref2 ("Your Rating") visual language, dark.
+ * Heavy grotesk type, orange accent, rounded cards, chunky chips with hard offset shadows,
+ * huge tabular numbers. docs/design/ui-style-guide.md.
+ */
+@theme {
+  /* Palette: matte black, beige, orange, mint, aqua */
+  --color-matte: #141414;
+  --color-beige: #e8dcc4;
+  --color-mint: #3eb489;
+  --color-aqua: #5fd3c8;
+
+  --color-bg: var(--color-matte);
+  --color-bg-elev: #1c1c1c;
+  --color-panel: rgb(243 236 221 / 0.06);
+  --color-border: #2e2b27;
+  --color-accent: #ff8a3d;
+  --color-glow: #ff8a3d;
+  --color-system: var(--color-aqua); /* the System's voice */
+  --color-text: #f3ecdd; /* beige white */
+  --color-text-dim: #a8a196;
+  --color-success: var(--color-mint);
+  --color-danger: #ff5a5a;
+  --color-xp: #ff8a3d;
+
+  /* One colour per stat (icons, charts) */
+  --color-stat-str: #ff8a3d;
+  --color-stat-vit: var(--color-mint);
+  --color-stat-agi: var(--color-aqua);
+  --color-stat-int: var(--color-beige);
+  --color-stat-per: #b9a2ff;
+
+  /* Hunter Rank badges (ui-style-guide §4) */
+  --color-rank-f: #9ca3af;
+  --color-rank-e: #4ade80;
+  --color-rank-d: #60a5fa;
+  --color-rank-c: #22d3ee;
+  --color-rank-b: #a78bfa;
+  --color-rank-a: #f87171;
+  --color-rank-s: #facc15;
+
+  --font-display: 'Archivo', system-ui, sans-serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+}
+
+/* Glass card + background art levels. */
+:root {
+  --glass-tint: 0.07;
+  --glass-blur: 2px;
+  --art-opacity: 0.7;
+}
+
+html,
+body {
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 70% 40% at 85% -10%, rgb(255 138 61 / 0.12), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgb(62 180 137 / 0.08), transparent 70%),
+    radial-gradient(ellipse 40% 30% at 100% 70%, rgb(95 211 200 / 0.05), transparent 70%),
+    var(--color-bg);
+  background-attachment: fixed;
+  min-height: 100dvh;
+}
+
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---- ref2 building blocks ----------------------------------------------------------- */
+
+/* Rounded card. */
+.card {
+  /* Glassmorphism: frosted tint, strong blur, bright hairline, light top edge. */
+  background:
+    linear-gradient(160deg, rgb(243 236 221 / 0.10), rgb(243 236 221 / 0.03) 45%, rgb(62 180 137 / 0.04)),
+    rgb(20 20 20 / var(--glass-tint));
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.18),
+    inset 0 -1px 0 0 rgb(0 0 0 / 0.25),
+    0 12px 40px -16px rgb(0 0 0 / 0.75);
+  border-radius: 1.25rem;
+}
+
+/* Chunky chip / tab / secondary button with a hard offset shadow (ref2 tabs). */
+.chip {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1.5px solid var(--color-text-dim);
+  border-radius: 0.75rem;
+  padding: 0 1rem;
+  color: var(--color-text-dim);
+  font-weight: 600;
+  box-shadow: 3px 3px 0 0 #000;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background-color 120ms ease;
+}
+.chip:hover:not(:disabled, .is-active) {
+  color: var(--color-text);
+  border-color: var(--color-text);
+}
+.chip.is-active {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-bg);
+}
+.chip:disabled {
+  opacity: 0.4;
+}
+
+/* Primary action: solid orange, same hard shadow. */
+.btn {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 0.75rem;
+  padding: 0 1.25rem;
+  background: var(--color-accent);
+  color: #1a0d03;
+  font-family: var(--font-display);
+  font-weight: 800;
+  box-shadow: 3px 3px 0 0 #000;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+}
+.btn:disabled {
+  opacity: 0.4;
+}
+
+/* Pressed: sink into the shadow. */
+.press:active:not(:disabled),
+.chip:active:not(:disabled),
+.btn:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 #000;
+}
+
+/* Angled orange LEVEL slab (ref2). */
+.level-slab {
+  display: flex;
+  min-width: 8.5rem;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem 1.75rem 1.25rem 1.25rem;
+  background: linear-gradient(135deg, #ffb35c, var(--color-xp) 45%, #ff5e3a);
+  color: #fff;
+  text-shadow: 0 2px 10px rgb(120 30 0 / 0.45);
+  clip-path: polygon(0 0, 100% 0, 86% 100%, 0 100%);
+}
+/* ---- Legacy System classes, restyled to ref2 so every screen follows the theme ------- */
+
+.system-frame {
+  position: relative;
+  /* Glassmorphism: frosted tint, strong blur, bright hairline, light top edge. */
+  background:
+    linear-gradient(160deg, rgb(243 236 221 / 0.10), rgb(243 236 221 / 0.03) 45%, rgb(62 180 137 / 0.04)),
+    rgb(20 20 20 / var(--glass-tint));
+  backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(1.2);
+  border: 1px solid rgb(255 255 255 / 0.14);
+  box-shadow:
+    inset 0 1px 0 0 rgb(255 255 255 / 0.18),
+    inset 0 -1px 0 0 rgb(0 0 0 / 0.25),
+    0 12px 40px -16px rgb(0 0 0 / 0.75);
+  border-radius: 1.25rem;
+}
+.system-frame.is-danger {
+  border-color: color-mix(in srgb, var(--color-danger) 60%, transparent);
+}
+.glow-text {
+  /* ref2 is crisp, no glow */
+}
+.system-divider {
+  height: 1px;
+  background: var(--color-border);
+}
+.system-line {
+  height: 1px;
+  background: var(--color-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Scrollable without a visible scrollbar (Rules scroll). */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* ---- Holographic System window (anime notices: Rules) ---------------------------------- */
+.holo {
+  --holo: var(--color-xp);
+  position: relative;
+  background:
+    linear-gradient(160deg, rgb(255 255 255 / 0.08), rgb(255 255 255 / 0.02) 45%, rgb(255 138 61 / 0.06)),
+    rgb(18 18 24 / 0.82);
+  backdrop-filter: blur(6px) saturate(1.4);
+  -webkit-backdrop-filter: blur(6px) saturate(1.4);
+  border: 1px solid color-mix(in srgb, var(--holo) 55%, transparent);
+  box-shadow:
+    0 0 0 1px rgb(0 0 0 / 0.4),
+    0 0 28px -4px color-mix(in srgb, var(--holo) 60%, transparent),
+    inset 0 0 40px -10px color-mix(in srgb, var(--holo) 50%, transparent);
+  color: var(--color-text);
+}
+/* Scanlines + slow shimmer sweep */
+.holo::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(0deg, rgb(255 255 255 / 0.025) 0 1px, transparent 1px 3px),
+    linear-gradient(105deg, transparent 40%, rgb(255 138 61 / 0.07) 50%, transparent 60%);
+  background-size: 100% 100%, 250% 100%;
+  animation: holo-sweep 6s linear infinite;
+  mix-blend-mode: screen;
+}
+@keyframes holo-sweep {
+  from {
+    background-position: 0 0, 150% 0;
+  }
+  to {
+    background-position: 0 0, -100% 0;
+  }
+}
+.holo-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-xp) 15%, var(--color-xp) 85%, transparent);
+  box-shadow: 0 0 10px 1px rgb(255 138 61 / 0.6);
+}
+.holo-text {
+  text-shadow:
+    0 0 10px rgb(255 138 61 / 0.35);
+}
+
+
+/* ---- Life: ambient motion and accents ----------------------------------------------- */
+
+/* Aurora behind everything: orange, mint and aqua light. Static: animating a blurred layer under
+   the frosted cards forces a full re-blur every frame and flickers. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: -25%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(30% 25% at 20% 25%, rgb(255 138 61 / 0.16), transparent 70%),
+    radial-gradient(28% 24% at 80% 35%, rgb(62 180 137 / 0.14), transparent 70%),
+    radial-gradient(30% 26% at 50% 85%, rgb(95 211 200 / 0.12), transparent 70%);
+  filter: blur(20px);
+}
+
+/* Drifting light particles (put .mana on the layout root). */
+.mana::before,
+.mana::after {
+  content: '';
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: -1;
+  background-image:
+    radial-gradient(1.5px 1.5px at 20% 30%, rgb(62 180 137 / 0.7), transparent),
+    radial-gradient(1px 1px at 70% 60%, rgb(95 211 200 / 0.6), transparent),
+    radial-gradient(1.5px 1.5px at 40% 80%, rgb(255 138 61 / 0.55), transparent),
+    radial-gradient(1px 1px at 85% 15%, rgb(243 236 221 / 0.5), transparent);
+  background-size: 300px 300px;
+  animation: drift 80s linear infinite;
+}
+.mana::after {
+  background-size: 460px 460px;
+  animation-duration: 130s;
+  opacity: 0.7;
+}
+@keyframes drift {
+  to {
+    transform: translate(150px, -300px);
+  }
+}
+
+/* Cards: thin colour edge on top, soft glow on hover (no movement: moving under the cursor jitters). */
+.card {
+  position: relative;
+}
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0 18% auto 18%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--color-xp), var(--color-mint), var(--color-aqua), transparent);
+  opacity: 0.55;
+}
+@media (hover: hover) {
+  .card {
+    transition: box-shadow 200ms ease;
+  }
+  .card:hover {
+    box-shadow:
+      inset 0 1px 0 0 rgb(255 255 255 / 0.18),
+      0 18px 44px -18px rgb(0 0 0 / 0.85),
+      0 0 0 1px rgb(255 138 61 / 0.18);
+  }
+}

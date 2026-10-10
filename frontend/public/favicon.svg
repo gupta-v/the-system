@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- The System: a "[!]" alert window. Matte black tile, beige brackets, orange mark. -->
+  <rect width="64" height="64" rx="14" fill="#141414"/>
+  <rect x="3" y="3" width="58" height="58" rx="12" fill="none" stroke="#ff8a3d" stroke-opacity=".35" stroke-width="2"/>
+  <path d="M22 14h-8v36h8" fill="none" stroke="#f3ecdd" stroke-width="5" stroke-linecap="square"/>
+  <path d="M42 14h8v36h-8" fill="none" stroke="#f3ecdd" stroke-width="5" stroke-linecap="square"/>
+  <rect x="28.5" y="16" width="7" height="22" rx="2" fill="#ff8a3d"/>
+  <rect x="28.5" y="42" width="7" height="7" rx="2" fill="#ff8a3d"/>
+</svg>
